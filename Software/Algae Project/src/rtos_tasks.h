@@ -8,6 +8,7 @@
 
 
 extern SemaphoreHandle_t xSerialSemaphore;
+extern SemaphoreHandle_t xSDSemaphore;
 
 /**
  * @brief Set the up rtos tasks into the RTOS
@@ -37,6 +38,7 @@ void TaskPWM(void *pvParameters);
  */
 void TaskSD(void *pvParameters);
 
+void TaskLCD(void *pvParameters);
 
 
 
