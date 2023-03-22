@@ -1,13 +1,14 @@
 
-#include <tasks.h>
+#include <rtos_tasks.h>
 
 
 SemaphoreHandle_t xSerialSemaphore;
 
 
-
+#define SETUP_TASK()
 
 bool setup_rtos_tasks(){
+
 
   if(xTaskCreate(
     TaskReadSensor,
@@ -25,6 +26,16 @@ bool setup_rtos_tasks(){
     128,
     NULL,
     3,
+    NULL
+  )!=pdPASS){
+    return(false);
+  }
+    if(xTaskCreate(
+    TaskSD,
+    "WriteSD",
+    128,
+    NULL,
+    1,
     NULL
   )!=pdPASS){
     return(false);
@@ -79,3 +90,28 @@ void TaskPWM(void *pvParameters){
 
     vTaskDelay(1);
   }}
+
+
+  void TaskSD(void *pvParameters){
+
+
+  while(1){// add stuff here to add it to the task
+    
+    if(xSemaphoreTake(xSerialSemaphore,(TickType_t) 5)==pdTRUE){ // this checks if we can get the mutex semaphore
+      // Serial.write("PWM has control over Serial port\n");
+      
+
+
+
+
+      xSemaphoreGive(xSerialSemaphore);
+    }
+
+
+
+
+
+    vTaskDelay(1);
+  }}
+
+  
