@@ -1,7 +1,12 @@
-#include <functional_tests/SimpleMenu.h>
+#include <UI_tests/Simple_Menu/SimpleMenu.h>
 #include <LiquidCrystal.h>
 
-
+#define LCD_RS 2
+#define LCD_EN 3
+#define LCD_D4 4
+#define LCD_D5 5
+#define LCD_D6 6
+#define LCD_D7 7
 
 int valueA, valueB, valueC, mainValue=5;
 void function();
@@ -20,7 +25,7 @@ SimpleMenu Menu[4] = {
 };
 
 SimpleMenu TopMenu(4,Menu);
-LiquidCrystal lcd = LiquidCrystal(1, 2, 4, 5, 6, 7);
+LiquidCrystal lcd = LiquidCrystal(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 
 void display(SimpleMenu *_menu)
 {
