@@ -1,17 +1,18 @@
 
 #include <menu.h>
 
-
-SimpleMenu Contruct_menu(){
-
-
     SimpleMenu Joystick_Menu[3] = {
     SimpleMenu("Joystick X",&xinput),
     SimpleMenu("Joystick Y",&yinput),
     SimpleMenu("Button",&Button)
   };
+  SimpleMenu dutycycle_Menu[3] = {
+    SimpleMenu("Duty Cycle:", &dutycycle.var),
+    SimpleMenu("Increment",[](){return dutycycle.Increment();}),
+    SimpleMenu("Decrement",[](){return dutycycle.Decrement();})
+  };
   SimpleMenu PWM_Menu[1] = {
-    SimpleMenu("Duty Cycle:", &dutycycle)
+    SimpleMenu("Duty Cycle", 3,dutycycle_Menu)
   };
 
   SimpleMenu Menu[2] = {
@@ -19,12 +20,8 @@ SimpleMenu Contruct_menu(){
     SimpleMenu("PWM Settings",1,PWM_Menu)
   };
 
+SimpleMenu TopMenu(2,Menu);
 
-    SimpleMenu TopLevelMenu(2,Menu);
-    return(TopLevelMenu);
-}
-
-// SimpleMenu TopMenu = Contruct_menu();
 
 void display(SimpleMenu *_menu){
     lcd.clear();

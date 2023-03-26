@@ -5,7 +5,6 @@
 #include <Arduino.h>
 #include <global_variables.h>
 
-SimpleMenu Contruct_menu();
 
 void display(SimpleMenu *_menu);
 

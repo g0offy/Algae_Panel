@@ -109,7 +109,7 @@ void TaskPWM(void *pvParameters){
 void TaskUI(void *pvParameters){
 //run setup, this is done once
 
-  Joystick_State prev_x_pos = Centre, prev_y_pos = Centre; 
+  Joystick_State prev_pos = Centre; 
   // make the pushbutton's pin an input:
   pinMode(Button, INPUT_PULLUP);
   pinMode(xinput,INPUT);
@@ -126,34 +126,69 @@ void TaskUI(void *pvParameters){
   while(1){ // add stuff here to add it to the task
     if(xSemaphoreTake(xSerialSemaphore,(TickType_t) 5)==pdTRUE){ // this checks if we can get the mutex semaphore
       // Serial.write("PWM has control over Serial port\n");
-      int xPosition = analogRead(xinput);
-      int yPosition = analogRead(yinput);
+      int xPosition = analogRead(xinput)-1024/2;
+      int yPosition = analogRead(yinput)-1024/2;
       int buttonState = digitalRead(Button);
+      if((abs(xPosition)>256||abs(yPosition)>256)){
+        if(prev_pos==Centre){
+          if(abs(xPosition)>abs(yPosition)){
+            
+            if(xPosition>0){
+              prev_pos=Joystick_State::Up;
+              TopMenu.up();
+            }
+            else{
+              prev_pos=Joystick_State::Down;
+              TopMenu.down();
+            }
+          }
+          else{
+            if(yPosition>0){
+              prev_pos=Joystick_State::Up;
+              TopMenu.select();
+            }
+            else{
+              prev_pos=Joystick_State::Down;
+              TopMenu.back();
+            }
 
-      if(xPosition>650&&prev_x_pos!=Joystick_State::Up){
-        prev_x_pos=Up;
-        TopMenu.up();
+          }
+
+
+        }
+      }
+      else{
+        prev_pos=Centre;
+      }
+      
+      
+      
+
+      // if(xPosition>650&&prev_x_pos!=Joystick_State::Up){
+      //   prev_x_pos=Up;
+      //   TopMenu.up();
         
-      }
-      if(xPosition<400&&prev_x_pos!=Joystick_State::Down){
-        prev_x_pos=Down;
-        TopMenu.down();
+      // }
+      // if(xPosition<400&&prev_x_pos!=Joystick_State::Down){
+      //   prev_x_pos=Down;
+      //   TopMenu.down();
         
-      }
-      if(xPosition>400&&xPosition<650){
-        prev_x_pos=Joystick_State::Centre;
-      }
-      if(yPosition>650&&prev_y_pos!=Joystick_State::Up){
-        TopMenu.back();
-        prev_y_pos=Joystick_State::Up;
-      }
-      if(yPosition<400&&prev_y_pos!=Joystick_State::Down){
-        TopMenu.select();
-        prev_y_pos=Joystick_State::Down;
-      }
-      if(yPosition>400&&yPosition<650){
-        prev_y_pos=Joystick_State::Centre;
-      }
+      // }
+      // if(xPosition>400&&xPosition<650){
+      //   prev_x_pos=Joystick_State::Centre;
+      // }
+      // if(yPosition>650&&prev_y_pos!=Joystick_State::Up){
+      //   TopMenu.select();
+        
+      //   prev_y_pos=Joystick_State::Up;
+      // }
+      // if(yPosition<400&&prev_y_pos!=Joystick_State::Down){
+      //   TopMenu.back();
+      //   prev_y_pos=Joystick_State::Down;
+      // }
+      // if(yPosition>400&&yPosition<650){
+      //   prev_y_pos=Joystick_State::Centre;
+      // }
       
       Serial.print(millis());
       Serial.print("X: ");

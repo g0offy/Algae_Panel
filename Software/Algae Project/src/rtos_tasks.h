@@ -44,7 +44,9 @@ void TaskUI(void *pvParameters);
 
 enum Joystick_State{
   Up = 1,
-  Down = -1,
+  Down = 2,
+  left =-1,
+  right = -2,
   Centre = 0
 };
 
