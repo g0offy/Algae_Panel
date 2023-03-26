@@ -1,50 +1,23 @@
 
 #include <rtos_tasks.h>
-
+#include <global_variables.h>
 
 SemaphoreHandle_t xSerialSemaphore;
-  int Button = 8;
-  int xinput = A0, yinput = A1;
-LiquidCrystal lcd = LiquidCrystal(2,3,4,5,6,7);
+  
+  
 
-  SimpleMenu Joystick_Menu[3] = {
-    SimpleMenu("Joystick X",&xinput),
-    SimpleMenu("Joystick Y",&yinput),
-    SimpleMenu("Button",&Button)
-  };
-  int dutycycle = 25;
-  SimpleMenu PWM_Menu[1] = {
-    SimpleMenu("Duty Cycle:", &dutycycle)
-  };
 
-  SimpleMenu Menu[2] = {
-    SimpleMenu("Joystick Options",3,Joystick_Menu),
-    SimpleMenu("PWM Settings",1,PWM_Menu)
-  };
 
-SimpleMenu TopMenu(2,Menu);
+  
+  
 
-void display(SimpleMenu *_menu)
-{
-  lcd.clear();
-  lcd.print(">");
-  lcd.print(_menu->name);
 
-  SimpleMenu *next = TopMenu.next();
-  if(next != NULL)
-  {
-    lcd.setCursor(1,1);
-    lcd.print(next->name);
-  }
-}
 
-void displayValue(SimpleMenu *_menu)
-{
-  lcd.clear();
-  lcd.print(_menu->name);
-  lcd.setCursor(0,1);
-  lcd.print(_menu->getValue());
-}
+
+
+
+
+
 
 
 
@@ -96,17 +69,8 @@ void TaskReadSensor(void *pvParameters){
     if(xSemaphoreTake(xSerialSemaphore,(TickType_t) 5)==pdTRUE){ // this checks if we can get the mutex semaphore
       // Serial.write("PWM has control over Serial port\n");
       
-
-
-
-
       xSemaphoreGive(xSerialSemaphore);
     }
-
-
-
-
-
     vTaskDelay(1);
   }}
 
@@ -120,17 +84,8 @@ void TaskPWM(void *pvParameters){
     if(xSemaphoreTake(xSerialSemaphore,(TickType_t) 5)==pdTRUE){ // this checks if we can get the mutex semaphore
       // Serial.write("PWM has control over Serial port\n");
       
-
-
-
-
       xSemaphoreGive(xSerialSemaphore);
     }
-
-
-
-
-
     vTaskDelay(1);
   }}
 
@@ -142,18 +97,9 @@ void TaskPWM(void *pvParameters){
     
     if(xSemaphoreTake(xSerialSemaphore,(TickType_t) 5)==pdTRUE){ // this checks if we can get the mutex semaphore
       // Serial.write("PWM has control over Serial port\n");
-      
-
-
-
-
+    
       xSemaphoreGive(xSerialSemaphore);
     }
-
-
-
-
-
     vTaskDelay(1);
   }}
 
@@ -169,7 +115,7 @@ void TaskUI(void *pvParameters){
   pinMode(xinput,INPUT);
   pinMode(yinput,INPUT);
 
-
+  // TopMenu = Contruct_menu();
 
   
   

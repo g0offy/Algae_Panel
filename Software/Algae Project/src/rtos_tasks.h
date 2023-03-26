@@ -6,6 +6,7 @@
 #include <semphr.h>
 #include <UI_tests/Simple_Menu/SimpleMenu.h>
 #include <LiquidCrystal.h>
+#include <menu.h>
 
 extern SemaphoreHandle_t xSerialSemaphore;
 extern SemaphoreHandle_t xSDSemaphore;
