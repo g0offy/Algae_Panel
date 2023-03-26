@@ -11,9 +11,9 @@
 
 class Variable {
     public:
-        Variable(int _Variable, int _Increment, int _min, int _max){
+        Variable(int _Variable){
             var = _Variable;
-            delta = _Increment;
+
         }
         /**
          * @brief 
@@ -21,35 +21,11 @@ class Variable {
          *  _max maximum value the internal increment/decrement functions will allow
          * _EE_Loc location in EEPROM memmory where this value is to be stored must be < 1024 (max size2)
          */
-        Variable(int _Variable, int _Increment, int _min, int _max,uint16_t _EE_Loc){
+        Variable(int _Variable,uint16_t _EE_Loc){
             var = _Variable;
-            delta = _Increment;
             if(_EE_Loc<=E2END){
                 EEPROM_LOC = _EE_Loc;
             }
-        }
-        void Increment(){
-            if(var+delta>max){ // this is incase of someone putting a negative min
-                var = max;
-                return;
-            }
-            if(var+delta<min){
-                var = min;
-                return;
-            }
-            var = var+delta;
-            return;
-        }
-        void Decrement(){
-            if(var-delta>max){
-                var = max;
-                return;
-            }
-            if(var-delta<min){
-                var = min;
-                return;
-            }
-            var = var-delta;
         }
         void Store(){ //saves value to eprom for a later time
             if(sizeof(int)<=EEPROM_LOC){
@@ -69,10 +45,6 @@ class Variable {
 
         int var;
     private:
-
-        int delta;
-        int min;
-        int max;
         uint16_t EEPROM_LOC=-1;
 };
 
@@ -87,6 +59,8 @@ extern LiquidCrystal lcd;
 extern SimpleMenu TopMenu;
 
 extern Variable dutycycle ;
+extern Variable autosave ;
+
 
 
 #endif

@@ -10,5 +10,5 @@ void display(SimpleMenu *_menu);
 
 void displayValue(SimpleMenu *_menu);
 
-
+void Store();
 #endif

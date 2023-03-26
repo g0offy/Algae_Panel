@@ -6,21 +6,21 @@
     SimpleMenu("Joystick Y",&yinput),
     SimpleMenu("Button",&Button)
   };
-  SimpleMenu dutycycle_Menu[3] = {
-    SimpleMenu("Duty Cycle:", &dutycycle.var),
-    SimpleMenu("Increment",[](){return dutycycle.Increment();}),
-    SimpleMenu("Decrement",[](){return dutycycle.Decrement();})
-  };
+
   SimpleMenu PWM_Menu[1] = {
-    SimpleMenu("Duty Cycle", 3,dutycycle_Menu)
+    SimpleMenu("Duty Cycle",&dutycycle.var,0,100)
+  };
+  SimpleMenu SD_Menu[1] = {
+    SimpleMenu("autosave (min)",&autosave.var,1,1000)
   };
 
-  SimpleMenu Menu[2] = {
+  SimpleMenu Menu[3] = {
     SimpleMenu("Joystick Options",3,Joystick_Menu),
-    SimpleMenu("PWM Settings",1,PWM_Menu)
+    SimpleMenu("PWM Settings",1,PWM_Menu),
+    SimpleMenu("SD Card Settings",1,SD_Menu)
   };
 
-SimpleMenu TopMenu(2,Menu);
+SimpleMenu TopMenu(3,Menu);
 
 
 void display(SimpleMenu *_menu){
@@ -41,4 +41,9 @@ void displayValue(SimpleMenu *_menu)
   lcd.print(_menu->name);
   lcd.setCursor(0,1);
   lcd.print(_menu->getValue());
+}
+
+
+void Store(){
+
 }

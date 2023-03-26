@@ -16,5 +16,6 @@ LiquidCrystal lcd = LiquidCrystal(2,3,4,5,6,7);
 //     
 // SimpleMenu TopMenu("blank",blank);
 // SimpleMenu* TopMenu = NULL;
-Variable dutycycle(50,10,0,100);
+Variable dutycycle(50,1);
 
+Variable autosave(10,5);
