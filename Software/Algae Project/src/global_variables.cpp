@@ -2,20 +2,14 @@
 
 
 
-
+    //-----------------------------     Pin Definitions  ----------------------------------
 int xinput = A0, yinput = A1;
 int Button = 8;
-
+    //-----------------------------     Global Objects Declarations  ----------------------------------
 LiquidCrystal lcd = LiquidCrystal(2,3,4,5,6,7);
 
-// EEPROM Variables //! move to eeprom later so they're kept between power offs
-// int * blank;
 
+    //-----------------------------     EEPROM Variable Definitions  ----------------------------------
 
-
-//     
-// SimpleMenu TopMenu("blank",blank);
-// SimpleMenu* TopMenu = NULL;
 Variable dutycycle(50,1);
-
 Variable autosave(10,5);

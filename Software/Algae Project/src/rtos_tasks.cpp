@@ -2,6 +2,8 @@
 #include <rtos_tasks.h>
 #include <global_variables.h>
 
+    //-----------------------------     RTOS Variable Definitions  ----------------------------------
+
 SemaphoreHandle_t xSerialSemaphore;
   
   
@@ -21,7 +23,7 @@ SemaphoreHandle_t xSerialSemaphore;
 
 
 
-#define SETUP_TASK()
+
 
 bool setup_rtos_tasks(){
 
@@ -61,6 +63,8 @@ bool setup_rtos_tasks(){
 return(true);
 }
 
+    //-----------------------------     RTOS Task Definition  ----------------------------------
+
 
 void TaskReadSensor(void *pvParameters){
 //run setup, this is done once
@@ -73,6 +77,10 @@ void TaskReadSensor(void *pvParameters){
     }
     vTaskDelay(1);
   }}
+
+
+
+
 
 void TaskPWM(void *pvParameters){
 //run setup here this is done once
@@ -88,6 +96,9 @@ void TaskPWM(void *pvParameters){
     }
     vTaskDelay(1);
   }}
+
+
+
 
 
   void TaskSD(void *pvParameters){
@@ -114,11 +125,6 @@ void TaskUI(void *pvParameters){
   pinMode(Button, INPUT_PULLUP);
   pinMode(xinput,INPUT);
   pinMode(yinput,INPUT);
-
-  // TopMenu = Contruct_menu();
-
-  
-  
 
   lcd.begin(16,2);
   TopMenu.begin(display,displayValue);
@@ -160,53 +166,15 @@ void TaskUI(void *pvParameters){
       else{
         prev_pos=Centre;
       }
-      
-      
-      
-
-      // if(xPosition>650&&prev_x_pos!=Joystick_State::Up){
-      //   prev_x_pos=Up;
-      //   TopMenu.up();
-        
-      // }
-      // if(xPosition<400&&prev_x_pos!=Joystick_State::Down){
-      //   prev_x_pos=Down;
-      //   TopMenu.down();
-        
-      // }
-      // if(xPosition>400&&xPosition<650){
-      //   prev_x_pos=Joystick_State::Centre;
-      // }
-      // if(yPosition>650&&prev_y_pos!=Joystick_State::Up){
-      //   TopMenu.select();
-        
-      //   prev_y_pos=Joystick_State::Up;
-      // }
-      // if(yPosition<400&&prev_y_pos!=Joystick_State::Down){
-      //   TopMenu.back();
-      //   prev_y_pos=Joystick_State::Down;
-      // }
-      // if(yPosition>400&&yPosition<650){
-      //   prev_y_pos=Joystick_State::Centre;
-      // }
-      
-      Serial.print(millis());
-      Serial.print("X: ");
-      Serial.print(xPosition);
-      Serial.print(" | Y: ");
-      Serial.print(yPosition);
-      Serial.print(" | Button: ");
-      Serial.println(buttonState);
-
-
-
+      // Serial.print(millis());
+      // Serial.print("X: ");
+      // Serial.print(xPosition);
+      // Serial.print(" | Y: ");
+      // Serial.print(yPosition);
+      // Serial.print(" | Button: ");
+      // Serial.println(buttonState);
       xSemaphoreGive(xSerialSemaphore);
     }
-
-
-
-
-
     vTaskDelay(1);
   }}
   

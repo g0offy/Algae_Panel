@@ -8,8 +8,13 @@
 #include <LiquidCrystal.h>
 #include <menu.h>
 
+
+    //-----------------------------     RTOS Variables Declarations ----------------------------------
 extern SemaphoreHandle_t xSerialSemaphore;
 extern SemaphoreHandle_t xSDSemaphore;
+
+
+
 
 /**
  * @brief Set the up rtos tasks into the RTOS
@@ -19,6 +24,8 @@ extern SemaphoreHandle_t xSDSemaphore;
  */
 bool setup_rtos_tasks();
 
+
+    //-----------------------------     RTOS Task Declarations  ----------------------------------
 /**
  * @brief rtos task reads and updates sensor values 
  * 
@@ -39,15 +46,14 @@ void TaskPWM(void *pvParameters);
  */
 void TaskSD(void *pvParameters);
 
+/**
+ * @brief Reads User input and updates the display to match
+ * 
+ * @param pvParameters 
+ */
 void TaskUI(void *pvParameters);
 
 
-enum Joystick_State{
-  Up = 1,
-  Down = 2,
-  left =-1,
-  right = -2,
-  Centre = 0
-};
+
 
 #endif

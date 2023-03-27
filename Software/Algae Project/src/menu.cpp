@@ -1,6 +1,9 @@
 
 #include <menu.h>
 
+
+    //-----------------------------     Menu Structure ----------------------------------
+
     SimpleMenu Joystick_Menu[3] = {
     SimpleMenu("Joystick X",&xinput),
     SimpleMenu("Joystick Y",&yinput),
@@ -20,8 +23,12 @@
     SimpleMenu("SD Card Settings",1,SD_Menu)
   };
 
-SimpleMenu TopMenu(3,Menu);
 
+
+
+
+SimpleMenu TopMenu(3,Menu);
+    //-----------------------------     Menu Functions  ----------------------------------
 
 void display(SimpleMenu *_menu){
     lcd.clear();
