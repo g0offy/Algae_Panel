@@ -54,3 +54,7 @@ void displayValue(SimpleMenu *_menu)
 void Store(){
 
 }
+
+void Retrieve(){
+  
+}
