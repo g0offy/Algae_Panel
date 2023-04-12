@@ -21,8 +21,11 @@ class EEPROM_Variable {
 
         }
         /**
-         * @brief 
-         * _EE_Loc location in EEPROM memmory where this value is to be stored must be < 1024 (max size2)
+         * @brief Constructs a variable to be stored in EEPROM to persist between resets
+         * 
+         * @param _Variable starting value of variable
+         * @param _EE_Loc location in EEPROM to store int variable (4 bytes). arduino uno has 1024 bytes of EEPROM so this variable is between 0 & 255
+         * @param _Manager pointer to manager that will check if EE_LOC is already taken by another variable/ aids in function calls 
          */
         EEPROM_Variable(int _Variable,uint8_t _EE_Loc,EEPROM_Manager* _Manager);
         /**
@@ -67,23 +70,40 @@ class EEPROM_Manager : private std::vector<EEPROM_Variable*> {
 
     public:
         EEPROM_Manager();
-
+        /**
+         * @brief Calls the Store function of all managed EEPROM variables
+         * 
+         */
         void Store();
-
+        /**
+         * @brief Calls the retrieve function of all managed EEPROM variables
+         * 
+         */
         void Retrieve();
-
+        /**
+         * @brief Calls the Reset function of all managed EEPROM variables
+         * 
+         */
         void Reset();
-
+        /**
+         * @brief Adds an EEPROM variable to the manage list
+         * 
+         * @param variable pointer to object to access function calls
+         * @param EEPROM_LOC requested location of EEPROM
+         * @return true if its available
+         * @return false if its not available 
+         */
         bool Add(EEPROM_Variable* variable,uint8_t EEPROM_LOC);
 
 
-        void serial_errors();
+        void print_errors();
 
         
 
         uint8_t EEPROM_MAP;
         
-        std::vector<uint8_t> EEPROM_errors;
+        std::vector<uint8_t> double_error;
+        std::vector<uint8_t> overflow_error;
 };
 
 
