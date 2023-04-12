@@ -24,11 +24,9 @@
   };
 
 
-
-
-
 SimpleMenu TopMenu(3,Menu);
     //-----------------------------     Menu Functions  ----------------------------------
+
 
 void display(SimpleMenu *_menu){
     lcd.clear();
@@ -55,6 +53,9 @@ void Store(){
 
 }
 
-void Retrieve(){
+void Reset_Soft(){
   
+}
+void Reset_Hard(){
+
 }

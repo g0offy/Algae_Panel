@@ -4,25 +4,27 @@
 #include <LiquidCrystal.h>
 #include <UI_tests/Simple_Menu/SimpleMenu.h>
 #include <EEPROM.h>
+#include <ArduinoSTL.h>
 
-
+class EEPROM_Manager;
 /**
  * @brief Class for for saving and editing to EEPROM
  * 
  */
-class Variable {
+class EEPROM_Variable {
     public:
-        Variable(int _Variable)
+        EEPROM_Variable(int _Variable)
         :default_var(_Variable)
         {
             var = _Variable;
+            
 
         }
         /**
          * @brief 
          * _EE_Loc location in EEPROM memmory where this value is to be stored must be < 1024 (max size2)
          */
-        Variable(int _Variable,uint16_t _EE_Loc);
+        EEPROM_Variable(int _Variable,uint8_t _EE_Loc,EEPROM_Manager* _Manager);
         /**
          * @brief Stores Value to EEPROM, should be called by the user, because EEPROM only has 100,000 writes
          * 
@@ -61,6 +63,30 @@ class Variable {
 };
 
 
+class EEPROM_Manager : private std::vector<EEPROM_Variable*> {
+
+    public:
+        EEPROM_Manager();
+
+        void Store();
+
+        void Retrieve();
+
+        void Reset();
+
+        bool Add(EEPROM_Variable* variable,uint8_t EEPROM_LOC);
+
+
+        void serial_errors();
+
+        
+
+        uint8_t EEPROM_MAP;
+        
+        std::vector<uint8_t> EEPROM_errors;
+};
+
+
 
 
 
@@ -73,8 +99,10 @@ extern LiquidCrystal lcd;
     //-----------------------------     EEPROM Variable Declarations  ----------------------------------
 extern SimpleMenu TopMenu;
 
-extern Variable dutycycle ;
-extern Variable autosave ;
+extern EEPROM_Manager rom_manager;
+
+extern EEPROM_Variable dutycycle ;
+extern EEPROM_Variable autosave ;
 
 
     //-----------------------------     Other Stuff  ----------------------------------
