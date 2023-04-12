@@ -128,16 +128,17 @@ void TaskUI(void *pvParameters){
 
   lcd.begin(16,2);
   TopMenu.begin(display,displayValue);
+  int xPosition = 0, yPosition = 0, buttonState = 0;
 
   while(1){ // add stuff here to add it to the task
     if(xSemaphoreTake(xSerialSemaphore,(TickType_t) 5)==pdTRUE){ // this checks if we can get the mutex semaphore
       // Serial.write("PWM has control over Serial port\n");
-      int xPosition = analogRead(xinput)-1024/2;
-      int yPosition = analogRead(yinput)-1024/2;
-      int buttonState = digitalRead(Button);
-      if((abs(xPosition)>256||abs(yPosition)>256)){
-        if(prev_pos==Centre){
-          if(abs(xPosition)>abs(yPosition)){
+      xPosition = analogRead(xinput)-1024/2;
+      yPosition = analogRead(yinput)-1024/2;
+      buttonState = digitalRead(Button);
+      if((abs(xPosition)>256||abs(yPosition)>256)){// create deadzone to minimise false positive inputs
+        if(prev_pos==Centre){ // requires the joystick to be returned to centre before reading again.
+          if(abs(xPosition)>abs(yPosition)){ // remove diagonal functionality
             
             if(xPosition>0){
               prev_pos=Joystick_State::Up;

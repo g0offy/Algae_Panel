@@ -10,9 +10,11 @@
  * @brief Class for for saving and editing to EEPROM
  * 
  */
-class Variable { //! This is all here because it was a templated class before and i cant be fucked to move the definitions to the .cpp file, do it yourself
+class Variable {
     public:
-        Variable(int _Variable){
+        Variable(int _Variable)
+        :default_var(_Variable)
+        {
             var = _Variable;
 
         }
@@ -20,48 +22,42 @@ class Variable { //! This is all here because it was a templated class before an
          * @brief 
          * _EE_Loc location in EEPROM memmory where this value is to be stored must be < 1024 (max size2)
          */
-        Variable(int _Variable,uint16_t _EE_Loc){
-            var = _Variable;
-            if(_EE_Loc<=E2END){
-                EEPROM_LOC = _EE_Loc;
-            }
-        }
+        Variable(int _Variable,uint16_t _EE_Loc);
         /**
          * @brief Stores Value to EEPROM, should be called by the user, because EEPROM only has 100,000 writes
          * 
          */
-        void Store(){ //saves value to eprom for a later time
-            if(EEPROM_LOC<0){
-                return;
-            }
-            for(int i =0;i<sizeof(int);i++){
-                EEPROM.update(EEPROM_LOC+i,*((uint8_t*)(&var)+i));
-            }
-        }
+        void Store();
+
         /**
          * @brief Retrieves Value from EEPROM, should be done on startup.
          * 
          */
-        void Retrieve(){
-            if(EEPROM_LOC<0){
-                return;
-            }
-            var = 0;
-            for(int i=0;i<sizeof(int);i++){
-                var |= ((int)EEPROM.read(EEPROM_LOC+i)<<8*(sizeof(int)-i)); //! check if this is little or big endian
-            }
-        }
+        void Retrieve();
+
+        /**
+         * @brief sets the variable var to the default var
+         * 
+         */
+        void Reset();
+
         /**
          * @brief integer variable in question
          * 
          */
         int var;
+        
     private:
-    /**
-     * @brief Location of this variable in EEPROM
-     * 
-     */
+        /**
+         * @brief Location of this variable in EEPROM
+         * 
+         */
         uint16_t EEPROM_LOC=-1;
+        /**
+         * @brief var is set to this in the case of a hard reset call.
+         * 
+         */
+        const int default_var;
 };
 
 
