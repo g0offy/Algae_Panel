@@ -5,6 +5,8 @@
 #include <UI_tests/Simple_Menu/SimpleMenu.h>
 #include <EEPROM.h>
 #include <ArduinoSTL.h>
+#include <DS18B20.h>
+#include <NewPing.h>
 
 class EEPROM_Manager;
 /**
@@ -111,13 +113,21 @@ class EEPROM_Manager : private std::vector<EEPROM_Variable*> {
 
 
     //-----------------------------     Pin Declarations  ----------------------------------
-extern int xinput, yinput;
-extern int Button;
+extern const int xinput, yinput;
+extern const int Button;
+extern const int TSensorPin1, TSensorPin2;
+extern const int SSensorPin1, SSensorPin2,SonarEchoPin;
+    //-----------------------------     Global Variables ---------------------------------------
+extern float Temp1,Temp2;
+extern int SonarDist1, SonarDist2;
+
+
+
     //-----------------------------     Global Objects Declarations  ----------------------------------
 extern LiquidCrystal lcd;
-
-    //-----------------------------     EEPROM Variable Declarations  ----------------------------------
 extern SimpleMenu TopMenu;
+    //-----------------------------     EEPROM Variable Declarations  ----------------------------------
+
 
 extern EEPROM_Manager rom_manager;
 

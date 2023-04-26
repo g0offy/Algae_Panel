@@ -10,27 +10,22 @@ SemaphoreHandle_t xSerialSemaphore;
 
 
 
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
 bool setup_rtos_tasks(){
 
 
   if(xTaskCreate(
     TaskUI,
     "UI",
+    128,
+    NULL,
+    2,
+    NULL
+  )!=pdPASS){
+    return(false);
+  }
+   if(xTaskCreate(
+    TaskReadSensor,
+    "ReadSensor",
     128,
     NULL,
     2,
@@ -69,9 +64,18 @@ return(true);
 void TaskReadSensor(void *pvParameters){
 //run setup, this is done once
 
+  DS18B20 TempSensor1(TSensorPin1);
+  DS18B20 TempSensor2(TSensorPin2);
+  NewPing Sonar1(SSensorPin1,SonarEchoPin,400);
+  NewPing Sonar2(SSensorPin2,SonarEchoPin,400);
+
   while(1){ // add stuff here to add it to the task
     if(xSemaphoreTake(xSerialSemaphore,(TickType_t) 5)==pdTRUE){ // this checks if we can get the mutex semaphore
       // Serial.write("PWM has control over Serial port\n");
+      // Temp1 = TempSensor1.readTempC();
+      // Temp2 = TempSensor2.readTempC();
+      SonarDist1 = Sonar1.ping_cm();
+      SonarDist2 = Sonar2.ping_cm();
       
       xSemaphoreGive(xSerialSemaphore);
     }
@@ -158,22 +162,12 @@ void TaskUI(void *pvParameters){
               prev_pos=Joystick_State::Down;
               TopMenu.back();
             }
-
           }
-
-
         }
       }
       else{
         prev_pos=Centre;
       }
-      // Serial.print(millis());
-      // Serial.print("X: ");
-      // Serial.print(xPosition);
-      // Serial.print(" | Y: ");
-      // Serial.print(yPosition);
-      // Serial.print(" | Button: ");
-      // Serial.println(buttonState);
       xSemaphoreGive(xSerialSemaphore);
     }
     vTaskDelay(1);
