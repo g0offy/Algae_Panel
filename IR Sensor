@@ -1,0 +1,42 @@
+#include <IRremote.h>
+
+int IRpin = 11;
+IRrecv irrecv(IRpin);
+decode_results results;
+
+void setup()
+{
+  Serial.begin(9600);
+  irrecv.enableIRIn(); // Start the receiver
+}
+
+void loop()
+{
+  if (irrecv.decode(&results))// If a Signal is detected the return the value
+    {
+      //Serial.println(results.value,DEC); // Print the Serial 'results.value'
+      switch(results.value){
+        case 16726215:
+          Serial.println("Enter");
+          break;
+          
+      case 16718055:
+          Serial.println("Up");
+          break;
+          
+      case 16730805:
+          Serial.println("Down");
+          break;
+          
+      case 16734885:
+          Serial.println("Right");
+          break;
+          
+      case 16716015:
+          Serial.println("Left");
+          break;
+      }
+      irrecv.resume(); // Receive the next value
+    }
+
+}
